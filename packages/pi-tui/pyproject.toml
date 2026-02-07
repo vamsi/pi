@@ -1,13 +1,15 @@
 [project]
 name = "pi-tui"
 version = "0.1.0"
-description = "Terminal UI components built on Textual"
+description = "Terminal UI framework with differential rendering"
 requires-python = ">=3.14"
 license = "MIT"
 dependencies = [
-    "textual>=0.89",
     "rich>=13.0",
     "markdown-it-py>=3.0",
+    "wcwidth>=0.2",
+    "grapheme>=0.6",
+    "linkify-it-py>=2.0.3",
 ]
 
 [build-system]
