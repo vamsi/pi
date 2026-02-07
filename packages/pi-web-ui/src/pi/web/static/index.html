@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pi Chat</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        border: 'hsl(var(--border))',
+                        input: 'hsl(var(--input))',
+                        ring: 'hsl(var(--ring))',
+                        background: 'hsl(var(--background))',
+                        foreground: 'hsl(var(--foreground))',
+                        primary: { DEFAULT: 'hsl(var(--primary))', foreground: 'hsl(var(--primary-foreground))' },
+                        secondary: { DEFAULT: 'hsl(var(--secondary))', foreground: 'hsl(var(--secondary-foreground))' },
+                        destructive: { DEFAULT: 'hsl(var(--destructive))', foreground: 'hsl(var(--destructive-foreground))' },
+                        muted: { DEFAULT: 'hsl(var(--muted))', foreground: 'hsl(var(--muted-foreground))' },
+                        accent: { DEFAULT: 'hsl(var(--accent))', foreground: 'hsl(var(--accent-foreground))' },
+                        card: { DEFAULT: 'hsl(var(--card))', foreground: 'hsl(var(--card-foreground))' },
+                    },
+                },
+            },
+        };
+    </script>
+
+    <!-- Marked.js for Markdown rendering -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- highlight.js for code highlighting -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/styles/github-dark.min.css">
+    <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.9.0/build/highlight.min.js"></script>
+
+    <link rel="stylesheet" href="/css/app.css">
+</head>
+<body class="bg-background text-foreground h-screen overflow-hidden">
+    <div id="app" class="h-full flex flex-col">
+        <!-- Header -->
+        <header class="flex-shrink-0 border-b border-border px-4 py-2 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <h1 class="text-sm font-semibold">Pi Chat</h1>
+                <button id="btn-sessions" class="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-secondary">
+                    Sessions
+                </button>
+            </div>
+            <div class="flex items-center gap-2">
+                <button id="btn-model" class="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-secondary">
+                    <span id="model-name">No model</span>
+                </button>
+                <button id="btn-thinking" class="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-secondary hidden">
+                    <span id="thinking-level">off</span>
+                </button>
+                <button id="btn-new-session" class="text-xs bg-primary text-primary-foreground px-3 py-1 rounded hover:opacity-90 transition-opacity">
+                    New Chat
+                </button>
+                <button id="btn-settings" class="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-secondary" title="Settings">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                </button>
+                <button id="btn-theme" class="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded hover:bg-secondary" title="Toggle theme">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main chat area -->
+        <main id="chat-area" class="flex-1 flex overflow-hidden">
+            <!-- Messages panel -->
+            <div id="messages-panel" class="flex-1 flex flex-col min-w-0">
+                <!-- Message list -->
+                <div id="message-list" class="flex-1 overflow-y-auto">
+                    <div id="messages-container" class="max-w-3xl mx-auto p-4 flex flex-col gap-3">
+                    </div>
+                </div>
+
+                <!-- Streaming indicator -->
+                <div id="streaming-container" class="hidden max-w-3xl mx-auto w-full px-4">
+                    <div id="streaming-message"></div>
+                    <div class="flex items-center gap-1 py-1">
+                        <span class="inline-block w-2 h-4 bg-muted-foreground animate-pulse"></span>
+                    </div>
+                </div>
+
+                <!-- Input area -->
+                <div class="flex-shrink-0 pb-2">
+                    <div class="max-w-3xl mx-auto px-2">
+                        <div id="message-editor"></div>
+                        <div id="stats" class="text-xs text-muted-foreground flex justify-end items-center h-5 px-2"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Artifacts panel (Phase 4, placeholder) -->
+            <div id="artifacts-panel" class="hidden"></div>
+        </main>
+    </div>
+
+    <!-- Dialogs container -->
+    <div id="dialogs"></div>
+
+    <!-- API Key prompt dialog -->
+    <dialog id="api-key-dialog" class="bg-card text-card-foreground border border-border rounded-lg shadow-xl p-6 backdrop:bg-black/50 max-w-md w-full">
+        <h2 class="text-lg font-semibold mb-4">API Key Required</h2>
+        <p class="text-sm text-muted-foreground mb-4">
+            Enter your API key for <span id="api-key-provider" class="font-medium text-foreground"></span>:
+        </p>
+        <input id="api-key-input" type="password" class="w-full px-3 py-2 rounded-md border border-input bg-background text-foreground text-sm mb-4" placeholder="sk-...">
+        <div class="flex justify-end gap-2">
+            <button id="api-key-cancel" class="px-3 py-1.5 text-sm rounded-md border border-border hover:bg-secondary transition-colors">Cancel</button>
+            <button id="api-key-save" class="px-3 py-1.5 text-sm rounded-md bg-primary text-primary-foreground hover:opacity-90 transition-opacity">Save</button>
+        </div>
+    </dialog>
+
+    <!-- App scripts -->
+    <script type="module" src="/js/app.js"></script>
+</body>
+</html>
