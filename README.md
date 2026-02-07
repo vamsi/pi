@@ -4,15 +4,15 @@ A modular AI agent toolkit written in Python. Ships as a `uv` workspace with ind
 
 ## Packages
 
-| Package | Purpose | Lines |
-|---------|---------|-------|
-| [pi-ai](packages/pi-ai/) | Unified LLM API across 9 providers | 7,800 |
-| [pi-agent](packages/pi-agent/) | Stateful agent runtime with tool execution | 1,000 |
-| [pi-tui](packages/pi-tui/) | Terminal UI framework with differential rendering | 16,400 |
-| [pi-coding-agent](packages/pi-coding-agent/) | CLI coding agent with file tools, sessions, extensions | 7,900 |
-| [pi-mom](packages/pi-mom/) | Slack bot with Docker sandbox | 7,700 |
-| [pi-web-ui](packages/pi-web-ui/) | Web UI with FastAPI and WebSockets | 2,000 |
-| [pi-pods](packages/pi-pods/) | GPU pod manager for vLLM deployments | WIP |
+| Package | What it does |
+|---------|-------------|
+| [pi-ai](packages/pi-ai/) | Unified LLM streaming across 9 provider backends (Anthropic, OpenAI, Google, Bedrock, and more). Swap models without changing application code. |
+| [pi-agent](packages/pi-agent/) | Stateful agent loop with tool execution, mid-run steering, and follow-up message processing. |
+| [pi-tui](packages/pi-tui/) | Terminal UI with differential rendering, keyboard input parsing, components (editor, markdown, select list), and overlay support. |
+| [pi-coding-agent](packages/pi-coding-agent/) | CLI coding assistant with file tools (bash, read, write, edit, grep), session persistence, context compaction, and extensions. |
+| [pi-mom](packages/pi-mom/) | Slack bot that runs tools inside Docker containers for safe code execution. |
+| [pi-web-ui](packages/pi-web-ui/) | Browser-based chat UI over FastAPI and WebSockets with SQLite-backed sessions. |
+| [pi-pods](packages/pi-pods/) | GPU pod manager for self-hosted vLLM deployments. |
 
 ## Architecture
 
@@ -79,4 +79,4 @@ uv sync --all-packages
 
 ## License
 
-Proprietary.
+MIT License. Copyright (c) Vamsi Kurama.
