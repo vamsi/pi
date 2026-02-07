@@ -216,6 +216,10 @@ class AgentManager:
         """Store an API key for a provider."""
         await self._keys.set(provider, key)
 
+    async def delete_api_key(self, provider: str) -> None:
+        """Delete an API key for a provider."""
+        await self._keys.delete(provider)
+
     async def delete_session(self, session_id: str) -> None:
         """Delete a session from storage."""
         await self._sessions.delete(session_id)

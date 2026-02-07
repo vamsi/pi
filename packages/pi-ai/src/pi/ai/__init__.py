@@ -61,8 +61,11 @@ from pi.ai.types import (
     UserMessage,
 )
 
-# Auto-register built-in providers on import
+from pi.ai.models_builtin import register_builtin_models
+
+# Auto-register built-in providers and models on import
 register_builtin_providers()
+register_builtin_models()
 
 __all__ = [
     "ApiProvider",
@@ -114,6 +117,7 @@ __all__ = [
     "get_providers",
     "models_are_equal",
     "register_api_provider",
+    "register_builtin_models",
     "register_builtin_providers",
     "register_models",
     "stream",

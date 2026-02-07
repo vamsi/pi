@@ -58,6 +58,12 @@ class DeleteSessionMessage:
     session_id: str = ""
 
 
+@dataclass
+class DeleteApiKeyMessage:
+    type: str = "delete_api_key"
+    provider: str = ""
+
+
 def parse_client_message(data: dict[str, Any]) -> Any:
     """Parse a raw dict into a typed client message."""
     msg_type = data.get("type", "")
@@ -88,6 +94,10 @@ def parse_client_message(data: dict[str, Any]) -> Any:
         case "delete_session":
             return DeleteSessionMessage(
                 session_id=data.get("sessionId", data.get("session_id", "")),
+            )
+        case "delete_api_key":
+            return DeleteApiKeyMessage(
+                provider=data.get("provider", ""),
             )
         case _:
             return None

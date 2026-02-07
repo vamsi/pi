@@ -12,6 +12,7 @@ from pi.web.agent_manager import AgentManager
 from pi.web.storage.database import Database
 from pi.web.ws.protocol import (
     AbortMessage,
+    DeleteApiKeyMessage,
     DeleteSessionMessage,
     LoadSessionMessage,
     NewSessionMessage,
@@ -96,6 +97,9 @@ async def websocket_handler(websocket: WebSocket, db: Database) -> None:
                 case DeleteSessionMessage():
                     await manager.delete_session(msg.session_id)
                     await send_json(await manager.get_sessions_dict())
+
+                case DeleteApiKeyMessage():
+                    await manager.delete_api_key(msg.provider)
 
     except WebSocketDisconnect:
         logger.info("WebSocket disconnected")
