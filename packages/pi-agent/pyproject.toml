@@ -1,0 +1,24 @@
+[project]
+name = "pi-agent"
+version = "0.1.0"
+description = "Stateful agent runtime with event-driven architecture"
+requires-python = ">=3.14"
+license = "MIT"
+dependencies = [
+    "pi-ai",
+]
+
+[tool.uv.sources]
+pi-ai = { workspace = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src/pi/agent"]
+sources = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

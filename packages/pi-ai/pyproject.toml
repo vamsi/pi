@@ -1,0 +1,31 @@
+[project]
+name = "pi-ai"
+version = "0.1.0"
+description = "Unified LLM API with multi-provider support"
+requires-python = ">=3.14"
+license = "MIT"
+dependencies = [
+    "pydantic>=2.10",
+    "httpx>=0.28",
+    "anthropic>=0.40",
+    "openai>=1.60",
+    "jsonschema>=4.23",
+]
+
+[project.optional-dependencies]
+google = ["google-genai>=1.0"]
+bedrock = ["boto3>=1.35"]
+mistral = ["mistralai>=1.0"]
+all = ["pi-ai[google,bedrock,mistral]"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+only-include = ["src/pi/ai"]
+sources = ["src"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
