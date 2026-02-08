@@ -6,9 +6,7 @@ requires-python = ">=3.14"
 license = "MIT"
 dependencies = [
     "pi-agent",
-    "paramiko>=3.5",
     "click>=8.1",
-    "httpx>=0.28",
 ]
 
 [project.scripts]
@@ -24,6 +22,11 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 only-include = ["src/pi/pods"]
 sources = ["src"]
+packages = ["src/pi/pods"]
+
+[tool.hatch.build.targets.wheel.shared-data]
+"src/pi/pods/models.json" = "pi/pods/models.json"
+"src/pi/pods/scripts" = "pi/pods/scripts"
 
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
