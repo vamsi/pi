@@ -2,6 +2,8 @@
 
 A modular AI agent toolkit written in Python. Ships as a `uv` workspace with independent packages that compose together -- from raw LLM streaming through stateful agent loops to full terminal and web interfaces.
 
+The original project here at: https://github.com/badlogic/pi-mono
+
 ## Packages
 
 | Package | What it does |
